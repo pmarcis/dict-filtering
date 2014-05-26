@@ -9,7 +9,7 @@ If you are using the Transliteration-based dictionary filtering method (or any c
 
 	@InProceedings{AKER14.803,
 	
-	author = {Ahmet Aker and Monica Paramita and Marcis Pinnis and Robert Gaizauskas},
+	author = {Ahmet Aker and Monica Paramita and Mārcis Pinnis and Robert Gaizauskas},
 	
 	title = {Bilingual dictionaries for all EU languages},
 
@@ -33,5 +33,7 @@ If you are using the Transliteration-based dictionary filtering method (or any c
 	
 	} 
 
+The paper can be freely accessed from the on-line proceedings of the conference - [here](http://www.lrec-conf.org/proceedings/lrec2014/pdf/803_Paper.pdf).
 
-The dictionary filtering method contains a component that allows extracting transliteration dictionaries from probabilistic dictionaries. The process, if run multiple times (). The method will be described in an upcoming paper "Bootstrapping "
+The dictionary filtering method contains a component that allows extracting transliteration dictionaries from probabilistic dictionaries. The process, if run multiple times (in a bootstrapping approach), allows creating quite large transliteration dictionaries. The method together with a multilingual transliteration dictionary for European languages will be described in an upcoming paper "Bootstrapping of a Multilingual Transliteration Dictionary for European Languages" in the conference [Baltic HLT 2014](http://tekstynas.vdu.lt/hlt2014).
+
