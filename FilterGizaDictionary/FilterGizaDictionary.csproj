@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{77337E95-85F7-445F-961C-41E8A337950A}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>FilterGizaDictionary</RootNamespace>
+    <AssemblyName>FilterGizaDictionary</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x86</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+    <Commandlineparameters>-o C:\RuntimeTempDir\TaaS\dictionaries\lv-en\en-lv-filtered -sl en -tl lv -i C:\RuntimeTempDir\TaaS\dictionaries\lv-en\lex.f2e -s_idf C:\RuntimeTempDir\TaaS\dictionaries\EN_IDF.txt -t_idf C:\RuntimeTempDir\TaaS\dictionaries\LV_IDF.txt</Commandlineparameters>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Externalconsole>true</Externalconsole>
+    <Commandlineparameters>-o C:\RuntimeTempDir\TaaS\dictionaries\lv-en\en-lv-filtered -sl en -tl lv -i C:\RuntimeTempDir\TaaS\dictionaries\lv-en\lex.f2e -s_idf C:\RuntimeTempDir\TaaS\dictionaries\EN_IDF.txt -t_idf C:\RuntimeTempDir\TaaS\dictionaries\LV_IDF.txt</Commandlineparameters>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="KeyValueEntry.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="LevenshteinDistance.cs" />
+    <Compile Include="SimpleCharacterTransliteration.cs" />
+    <Compile Include="ValidAlphabets.cs" />
+    <Compile Include="Stemmers.cs" />
+    <Compile Include="TransliterationModule.cs" />
+    <Compile Include="TranslConfig.cs" />
+    <Compile Include="StringProbabEntry.cs" />
+    <Compile Include="Log.cs" />
+    <Compile Include="LogLevelType.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+</Project>
