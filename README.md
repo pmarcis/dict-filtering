@@ -30,7 +30,7 @@ The paper can be freely accessed from the on-line proceedings of the [LREC 2014]
 If you are using the Multilingual Transliteration Dictionary or the transliteration dictionary bootstrapping tool/method, please cite accordingly the following paper:
 
 ```TeX
-@inproceedings{Pinnis2014,
+@InProceedings{PinnisBalticHLT2014,
 author = {Pinnis, Mārcis},
 title = {Bootstrapping of a Multilingual Transliteration Dictionary for European Languages},
 booktitle = {Human Language Technologies – The Baltic Perspective - Proceedings of the Sixth International Conference Baltic HLT 2014},
