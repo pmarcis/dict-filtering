@@ -5,11 +5,11 @@ dict-filtering
 
 If you are looking for filtered **Giza++ dictionaries** for European languages, you can download them from [META-SHARE](http://metashare.tilde.com/repository/search/?q=giza%2B%2B+dictionaries). If you have issues finding them, drop me a message (will see what we can do).
 
-If you are looking for the **Multilingual Transliteration dictionary**, you can download it from [here](Data).
+If you are looking for the **Multilingual Transliteration Dictionary**, you can download it from [here](Data).
 
-If you are using the **Transliteration-based dictionary filtering method** (or any component), please cite accordingly the following paper:
+If you are using the **Transliteration-based Dictionary Filtering Method** (or the filtered dictionaries), please cite accordingly the following paper:
 
-```
+```TeX
 @InProceedings{AKER14.803,
 author = {Ahmet Aker and Monica Paramita and Mārcis Pinnis and Robert Gaizauskas},
 title = {Bilingual dictionaries for all EU languages},
@@ -25,11 +25,11 @@ language = {english}
 }
 ```
 
-The paper can be freely accessed from the on-line proceedings of the conference - [here](http://www.lrec-conf.org/proceedings/lrec2014/pdf/803_Paper.pdf).
+The paper can be freely accessed from the on-line proceedings of the [LREC 2014](http://lrec2014.lrec-conf.org/en/) conference - [here](http://www.lrec-conf.org/proceedings/lrec2014/pdf/803_Paper.pdf).
 
 If you are using the Multilingual Transliteration Dictionary or the transliteration dictionary bootstrapping tool/method, please cite accordingly the following paper:
 
-```
+```TeX
 @inproceedings{Pinnis2014,
 author = {Pinnis, Mārcis},
 title = {Bootstrapping of a Multilingual Transliteration Dictionary for European Languages},
