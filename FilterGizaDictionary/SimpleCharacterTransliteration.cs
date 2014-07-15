@@ -146,7 +146,7 @@ namespace FilterGizaDictionary
                 }
                 else if ("Чч".IndexOf(c) >= 0)
                 {
-                    outString.Append("ch");
+                    outString.Append("ch"); //The Latvian č should be probably placed here!
                 }
                 else if ("Щщ".IndexOf(c) >= 0)
                 {

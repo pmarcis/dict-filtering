@@ -43,12 +43,15 @@ namespace MergeDictionaries
                 string fileName = Path.GetFileName(fileOne);
                 string outFile = outDir + fileName.Substring(0,fileName.Length-extOne.Length)+extTwo;
                 string fileTwo = inDirTwo + fileName.Substring(0, fileName.Length - extOne.Length) + extTwo;
+                string fileTwoNew = outFile + ".new";
                 if (File.Exists(fileTwo))
                 {
                     Dictionary<string, Dictionary<string, double>> fileOneData = ReadDict(fileOne, ref fileOneCount);
                     fileOneSrcWords = fileOneData.Count;
                     Dictionary<string, Dictionary<string, double>> fileTwoData = ReadDict(fileTwo,ref fileTwoCount);
                     fileTwoSrcWords = fileTwoData.Count;
+
+                    StreamWriter swNew = new StreamWriter(fileTwoNew, false, new UTF8Encoding(false));
                     
                     foreach (string srcText in fileTwoData.Keys)
                     {
@@ -63,6 +66,15 @@ namespace MergeDictionaries
                             {
                                 newPairs++;
                                 fileOneData[srcText].Add(trgText, fileTwoData[srcText][trgText]);
+                                swNew.Write(srcText);
+                                swNew.Write("\t");
+                                swNew.Write(trgText);
+                                if (fileTwoData[srcText][trgText] >= 0)
+                                {
+                                    swNew.Write("\t");
+                                    swNew.Write(fileTwoData[srcText][trgText]);
+                                }
+                                swNew.WriteLine();
                             }
                             else if (fileTwoData[srcText][trgText] > fileOneData[srcText][trgText])
                             {
@@ -70,6 +82,8 @@ namespace MergeDictionaries
                             }
                         }
                     }
+
+                    swNew.Close();
 
                     StreamWriter sw = new StreamWriter(outFile, false, new UTF8Encoding(false));
                     sw.NewLine = "\n";

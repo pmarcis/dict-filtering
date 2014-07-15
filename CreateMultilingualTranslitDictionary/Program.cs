@@ -13,16 +13,23 @@ namespace CreateMultilingualTranslitDictionary
     {
         static void Main(string[] args)
         {
-            string inDir = null;
+            List<string> inDirList = new List<string>();
             string outFile = null;
             string extension = "translit";
             
             for (int i = 0; i < args.Length; i++)
             {
 
-                if (args[i] == "-i" && args.Length > i + 1)
+                if (args[i] == "-i" && args.Length > i + 2)
                 {
-                    inDir = args[i + 1];
+                    int count = Convert.ToInt32(args[i + 1]);
+                    for (int j = 2; j < count+2;j++ )
+                    {
+                        if (args.Length>i+j)
+                        {
+                            inDirList.Add(args[i + j]);
+                        }
+                    }
                 }
                 else if (args[i] == "-e" && args.Length > i + 1)
                 {
@@ -42,40 +49,59 @@ namespace CreateMultilingualTranslitDictionary
             nfi.PercentDecimalSeparator = ".";
 
             string srcLang = "en";
-            Dictionary<string, Dictionary<string, Dictionary<string, double>>> dataDict = new Dictionary<string, Dictionary<string, Dictionary<string, double>>>();
+            Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<int,double>>>> dataDict = new Dictionary<string, Dictionary<string, Dictionary<string, Dictionary<int,double>>>>();
             Dictionary<string, bool> langDict = new Dictionary<string, bool>();
 
-            foreach (string file in Directory.GetFiles(inDir, "*." + extension, SearchOption.AllDirectories))
+            int iterationCounter = 0;
+
+            foreach (string inDir in inDirList)
             {
-                string name = Path.GetFileName(file);
-                if (name.StartsWith(srcLang))
+                iterationCounter++;
+                foreach (string file in Directory.GetFiles(inDir, "*." + extension, SearchOption.AllDirectories))
                 {
-                    string trgLang = name.Substring(3, 2);
-                    if (!langDict.ContainsKey(trgLang)) langDict.Add(trgLang, true);
-                    StreamReader sr = new StreamReader(file, Encoding.UTF8);
-                    while (!sr.EndOfStream)
+                    string name = Path.GetFileName(file);
+                    if (name.StartsWith(srcLang))
                     {
-                        string line = sr.ReadLine().Trim();
-                        if (!string.IsNullOrWhiteSpace(line))
+                        string trgLang = name.Substring(3, 2);
+                        if (!langDict.ContainsKey(trgLang)) langDict.Add(trgLang, true);
+                        StreamReader sr = new StreamReader(file, Encoding.UTF8);
+                        while (!sr.EndOfStream)
                         {
-                            string[] arr = line.Split(sep, StringSplitOptions.None);
-                            if (arr.Length == 3)
+                            string line = sr.ReadLine().Trim();
+                            if (!string.IsNullOrWhiteSpace(line))
                             {
-                                double prob = Convert.ToDouble(arr[2], nfi);
-                                if (!dataDict.ContainsKey(arr[0])) dataDict.Add(arr[0], new Dictionary<string, Dictionary<string, double>>());
-                                if (!dataDict[arr[0]].ContainsKey(trgLang)) dataDict[arr[0]].Add(trgLang, new Dictionary<string, double>());
-                                if (!dataDict[arr[0]][trgLang].ContainsKey(arr[1])) dataDict[arr[0]][trgLang].Add(arr[1], prob);
-                            }
-                            else if (arr.Length == 2)
-                            {
-                                double prob = 1.0;
-                                if (!dataDict.ContainsKey(arr[0])) dataDict.Add(arr[0], new Dictionary<string, Dictionary<string, double>>());
-                                if (!dataDict[arr[0]].ContainsKey(trgLang)) dataDict[arr[0]].Add(trgLang, new Dictionary<string, double>());
-                                if (!dataDict[arr[0]][trgLang].ContainsKey(arr[1])) dataDict[arr[0]][trgLang].Add(arr[1], prob);
+                                string[] arr = line.Split(sep, StringSplitOptions.None);
+                                if (arr.Length == 3)
+                                {
+                                    double prob = Convert.ToDouble(arr[2], nfi);
+                                    if (!dataDict.ContainsKey(arr[0])) dataDict.Add(arr[0], new Dictionary<string, Dictionary<string, Dictionary<int, double>>>());
+                                    if (!dataDict[arr[0]].ContainsKey(trgLang)) dataDict[arr[0]].Add(trgLang, new Dictionary<string, Dictionary<int, double>>());
+                                    if (!dataDict[arr[0]][trgLang].ContainsKey(arr[1])) dataDict[arr[0]][trgLang].Add(arr[1], new Dictionary<int, double>());
+                                    if (!dataDict[arr[0]][trgLang][arr[1]].ContainsKey(iterationCounter)) dataDict[arr[0]][trgLang][arr[1]].Add(iterationCounter, prob);
+                                }
+                                else if (arr.Length == 2)
+                                {
+                                    double prob = 1.0;
+                                    string src = arr[0];
+                                    string trg = arr[1];
+                                    if (iterationCounter==1)
+                                    {
+                                        //As the initial data did not contain (that is, I forgot to add) the probabilities, we need to calculate them!
+                                        src = FilterGizaDictionary.SimpleCharacterTransliteration.Transliterate(src);
+                                        trg = FilterGizaDictionary.SimpleCharacterTransliteration.Transliterate(trg);
+                                        double levenshtainDistance = FilterGizaDictionary.LevenshteinDistance.Compute (src, trg);
+							            double maxLen = Math.Max (src.Length, trg.Length);
+							            prob = (maxLen - levenshtainDistance) / maxLen;
+                                    }
+                                    if (!dataDict.ContainsKey(arr[0])) dataDict.Add(arr[0], new Dictionary<string, Dictionary<string, Dictionary<int, double>>>());
+                                    if (!dataDict[arr[0]].ContainsKey(trgLang)) dataDict[arr[0]].Add(trgLang, new Dictionary<string, Dictionary<int, double>>());
+                                    if (!dataDict[arr[0]][trgLang].ContainsKey(arr[1])) dataDict[arr[0]][trgLang].Add(arr[1], new Dictionary<int, double>());
+                                    if (!dataDict[arr[0]][trgLang][arr[1]].ContainsKey(iterationCounter)) dataDict[arr[0]][trgLang][arr[1]].Add(iterationCounter, prob);
+                                }
                             }
                         }
+                        sr.Close();
                     }
-                    sr.Close();
                 }
             }
 
@@ -100,7 +126,7 @@ namespace CreateMultilingualTranslitDictionary
 
             foreach (string srcWord in srcWords)
             {
-                CEntry c = new CEntry();
+                SEntry c = new SEntry();
                 c.str = srcWord;
                 c.tEntries = new List<TEntry>();
 
@@ -118,17 +144,23 @@ namespace CreateMultilingualTranslitDictionary
                         wordCount[lang]++;
                         //LEntry l = new LEntry();
                         //l.tEntries = new List<TEntry>();
-                        List<KeyValuePair<string, double>> transls = dataDict[srcWord][lang].ToList();
+                        List<KeyValuePair<string, Dictionary<int, double>>> transls = dataDict[srcWord][lang].ToList();
                         //l.lang = lang;
                         transls.Sort(Compare);
-                        foreach (KeyValuePair<string, double> kvp in transls)
+                        foreach (KeyValuePair<string, Dictionary<int, double>> kvp in transls)
                         {
+                            int min = int.MaxValue;
+                            foreach (int key in kvp.Value.Keys)
+                            {
+                                if (key < min) min = key;
+                            }
                             totalTranslPairs++;
                             translCount[lang]++;
                             TEntry t = new TEntry();
                             t.lang = lang;
                             t.str = kvp.Key;
-                            t.score = kvp.Value;
+                            t.score = kvp.Value[min];
+                            t.iteration = min;
                             c.tEntries.Add(t);
                         }
                         //c.tEntries.Add(l);
@@ -157,9 +189,26 @@ namespace CreateMultilingualTranslitDictionary
             }
         }
 
-        static int Compare(KeyValuePair<string, double> a, KeyValuePair<string, double> b)
+        static int Compare(KeyValuePair<string, Dictionary<int, double>> a, KeyValuePair<string, Dictionary<int, double>> b)
         {
-            return b.Value.CompareTo(a.Value);
+            int minA = int.MaxValue;
+            int minB = int.MaxValue;
+            foreach (int key in a.Value.Keys)
+            {
+                if (key < minA) minA = key;
+            }
+            foreach (int key in b.Value.Keys)
+            {
+                if (key < minB) minB = key;
+            }
+            if (minA!=minB)
+            {
+                return minA.CompareTo(minB);
+            }
+            else
+            {
+                return b.Value[minB].CompareTo(a.Value[minA]);
+            }
         }
 
         
@@ -204,16 +253,16 @@ namespace CreateMultilingualTranslitDictionary
     {
         public TranslitCollection()
         {
-            cEntries = new List<CEntry>();
+            cEntries = new List<SEntry>();
         }
-        [XmlElement("CEntry")]
-        public List<CEntry> cEntries = new List<CEntry>();
+        [XmlElement("SEntry")]
+        public List<SEntry> cEntries = new List<SEntry>();
     }
 
     [Serializable]
-    public class CEntry
+    public class SEntry
     {
-        public CEntry()
+        public SEntry()
         {
             str = null;
             tEntries = null;
@@ -263,6 +312,9 @@ namespace CreateMultilingualTranslitDictionary
         public string str;
         [XmlIgnore]
         public double? score;
+
+        [XmlAttribute("iteration")]
+        public int iteration=-1;
 
         [XmlAttribute("score")]
         public string Score

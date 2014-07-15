@@ -1,6 +1,0 @@
-Idejas:
-1) Filtrēšanā iesaistam īsto transliterāciju un ar Levenshtein distanci pārrēķinam lielāko līdzību.
-2) Filtrēšanā iesaistam vienkāršo transliterāciju un ar Levenshtein distanci pārrēķinam lielāko līdzību.
-3) Varbūt ieviešam IDF sarakstu un relatīvi pārbaudam vārdu līdzību (?) Tā teikt, to, kas ir ļoti zemu ar ļoti augstu nekādā gadījumā nesastatam?!
-4) Visbeidzot, novelkam apakšējo slieksni.
-5) Varbūt ieviešam stemeri, lai pieļautu morfoloģisko dažādību vārdiem???
