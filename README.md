@@ -27,7 +27,7 @@ language = {english}
 
 The paper can be freely accessed from the on-line proceedings of the [LREC 2014](http://lrec2014.lrec-conf.org/en/) conference - [here](http://www.lrec-conf.org/proceedings/lrec2014/pdf/803_Paper.pdf).
 
-If you are using the Multilingual Transliteration Dictionary or the transliteration dictionary bootstrapping tool/method, please cite accordingly the following paper:
+If you are using the **Multilingual Transliteration Dictionary** or the transliteration dictionary bootstrapping tool/method, please cite accordingly the following paper:
 
 ```TeX
 @InProceedings{PinnisBalticHLT2014,
@@ -43,4 +43,4 @@ language = {english}
 }
 ```
 
-The paper is not yet publicly available. As soon as the [Baltic HLT 2014](http://tekstynas.vdu.lt/hlt2014) conference proceedings will be published, I will provide a direct link to the paper.
+The paper can be freely accessed from the on-line proceedings of the [Baltic HLT 2014](http://tekstynas.vdu.lt/hlt2014) conference [here](http://ebooks.iospress.nl/volumearticle/38016).
